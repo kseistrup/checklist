@@ -19,7 +19,7 @@ from pprint import pprint
 
 DEBUG = os.environ.get('DEBUG', 'False')[0].upper() in '1JTY'  # 1/Ja/True/Yes
 DEFAULT_PATH = os.path.expanduser("~/checklist.txt")
-RX = re.compile(r'^-\s\[(.)\]\s(.+)$')
+RX = re.compile(r'^-\s\[(.)\]\s(.+)\s*$')
 
 # read checklist from '~/checklist.txt' or -f [FILE]
 # format is:
