@@ -9,76 +9,87 @@
 #
 # checklist 1.0 written by mt, https://marinintim.com/projects/checklist
 # MIT licensed
+"""missing docstring"""
 
 import os
 import argparse
+
+DEFAULT_PATH = os.path.expanduser("~/checklist.txt")
+
 
 # read checklist from '~/checklist.txt' or -f [FILE]
 # format is:
 # every line with - [ ] or - [x] in the beginning is an item to be checked
 
 
-def line_to_task(str):
-    if str.startswith("- [x] "):
-        return ('x', str[6:])
-    elif str.startswith("- [ ] "):
-        return (' ', str[6:])
-    else:
-        return False
+def line_to_task(thestr):
+    """missing docstring"""
+    if thestr.startswith("- [x] "):
+        return ('x', thestr[6:])
+    if thestr.startswith("- [ ] "):
+        return (' ', thestr[6:])
+    return False
 
 
-def task_to_line(t):
-    idx, val = t
-    done, text = val
+def task_to_line(task):
+    """missing docstring"""
+    (_, (done, text)) = task
     if done == 'x':
         return "- [x] " + text + "\n"
-    else:
-        return "- [ ] " + text + "\n"
+    return "- [ ] " + text + "\n"
 
 
 def read_from_file(file):
-    tasks = 0
-    with open(file) as f:
-        lines = f.read().splitlines()
+    """missing docstring"""
+    tasks = []
+    with open(file) as fptr:
+        lines = fptr.read().splitlines()
         tasks = [t for t in map(line_to_task, lines) if t]
     return list(enumerate(tasks, start=1))
 
 
-def write_to_file(lst, file):
-    with open(file, "w") as f:
-        lines = map(task_to_line, lst)
-        f.writelines(lines)
+def write_to_file(lst, fname):
+    """missing docstring"""
+    lines = map(task_to_line, lst)
+    with open(fname, "w") as fptr:
+        fptr.writelines(lines)
 
 
 def item_from_text(lst, text):
+    """missing docstring"""
     print(text)
-    last = lst[-1]
 
+    last = lst[-1]
     newline = last[0] + 1
+
     return (newline, (' ', ' '.join(text)))
 
 
 def append_item_from_text(lst, text):
+    """missing docstring"""
     lst.append(item_from_text(lst, text))
     return lst
 
 
 def last_len(lst):
-    if len(lst) == 0:
+    """missing docstring"""
+    if not lst:
         return 0
     return len(str(lst[-1][0]))
 
 
 def print_checklist(lst):
+    """missing docstring"""
     llen = last_len(lst)
 
-    for idx, val in lst:
+    for (idx, val) in lst:
         status, txt = val
         print(str(idx).rjust(llen, ' ') + ":", "[" + status + "] " + txt)
 
 
 def check(lst, idx):
-    _, (done, text) = lst[idx]
+    """missing docstring"""
+    (_, (done, text)) = lst[idx]
     if done == 'x':
         lst[idx] = (idx + 1, (' ', text))
     else:
@@ -87,15 +98,14 @@ def check(lst, idx):
 
 
 def only_remaining(lst):
+    """missing docstring"""
     return list(filter(lambda t: t[1][0] != 'x', lst))
 
 
-default_path = os.path.expanduser("~/checklist.txt")
-
-
 def main():
+    """missing docstring"""
     arger = argparse.ArgumentParser()
-    arger.add_argument("-f", "--file", action='store', default=default_path,
+    arger.add_argument("-f", "--file", action='store', default=DEFAULT_PATH,
                        help="file that contains the checklist")
     arger.add_argument('-a', "--all", action='store_true', default=False,
                        help='list all items')
