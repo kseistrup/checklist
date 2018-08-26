@@ -99,7 +99,7 @@ def check(lst, idx):
     (_, (done, text)) = lst[idx]
     lst[idx] = (
         idx + 1,
-        (' ' if done == 'x' else ' ', text)
+        (' ' if done != ' ' else ' ', text)
     )
     return lst
 
