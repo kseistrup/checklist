@@ -124,7 +124,7 @@ def main():
     check_parser.add_argument("item_number", type=int,
                               help="the line number of the item to be checked")
     add_parser = subparsers.add_parser("add")
-    add_parser.add_argument("item_text", nargs="*", help="Text of the item")
+    add_parser.add_argument("item_text", nargs="*", help="text of the item")
 
     opts = arger.parse_args()
 
